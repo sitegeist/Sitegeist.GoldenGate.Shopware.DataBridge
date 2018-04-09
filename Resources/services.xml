@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+
+        <!-- API DTP Handler -->
+        <service id="sitegeist_golden_gate_shopware_data_bridge.components.dto.handler.category.category_reference_handler"
+                 class="SitegeistGoldenGateShopwareDataBridge\Components\Dto\Handler\Category\CategoryReferenceHandler">
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.api.handler.filter_group.filter_group_option_reference_handler" />
+        </service>
+        <service id="sitegeist_golden_gate_shopware_data_bridge.components.api.handler.filter_group.filter_group_handler"
+                 class="SitegeistGoldenGateShopwareDataBridge\Components\Dto\Handler\FilterGroup\FilterGroupHandler">
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.api.handler.filter_group.filter_group_option_reference_handler" />
+        </service>
+        <service id="sitegeist_golden_gate_shopware_data_bridge.components.api.handler.filter_group.filter_group_option_reference_handler"
+                 class="SitegeistGoldenGateShopwareDataBridge\Components\Dto\Handler\FilterGroup\FilterGroupOptionReferenceHandler" />
+        <service id="sitegeist_golden_gate_shopware_data_bridge.components.dto.handler.filter_group.filter_group_reference_handler"
+                 class="SitegeistGoldenGateShopwareDataBridge\Components\Dto\Handler\FilterGroup\FilterGroupReferenceHandler"/>
+        <service id="sitegeist_golden_gate_shopware_data_bridge.components.dto.handler.product.product_detail_handler"
+                 class="SitegeistGoldenGateShopwareDataBridge\Components\Dto\Handler\Product\ProductDetailHandler">
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.shop_handler" />
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.dto.handler.product.product_detail_price_handler"/>
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.dto.handler.product.product_detail_image_handler"/>
+        </service>
+        <service id="sitegeist_golden_gate_shopware_data_bridge.components.dto.handler.product.product_detail_image_handler"
+                 class="SitegeistGoldenGateShopwareDataBridge\Components\Dto\Handler\Product\ProductDetailImageHandler">
+            <argument type="service" id="models" />
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.shop_handler" />
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.dto.handler.product.product_detail_image_size_handler" />
+        </service>
+        <service id="sitegeist_golden_gate_shopware_data_bridge.components.dto.handler.product.product_detail_image_size_handler"
+                 class="SitegeistGoldenGateShopwareDataBridge\Components\Dto\Handler\Product\ProductDetailImageSizeHandler">
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.shop_handler" />
+        </service>
+        <service id="sitegeist_golden_gate_shopware_data_bridge.components.dto.handler.product.product_detail_price_handler"
+                 class="SitegeistGoldenGateShopwareDataBridge\Components\Dto\Handler\Product\ProductDetailPriceHandler">
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.shop_handler" />
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.price_calculator" />
+        </service>
+        <service id="sitegeist_golden_gate_shopware_data_bridge.components.dto.handler.product.product_handler"
+                 class="SitegeistGoldenGateShopwareDataBridge\Components\Dto\Handler\Product\ProductHandler">
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.dto.handler.product.product_detail_handler" />
+        </service>
+        <service id="sitegeist_golden_gate_shopware_data_bridge.components.dto.handler.product.product_reference_handler"
+                 class="SitegeistGoldenGateShopwareDataBridge\Components\Dto\Handler\Product\ProductReferenceHandler" />
+
+
+        <!-- API Resources -->
+        <service id="sitegeist_golden_gate_shopware_data_bridge.components.api.resource.sitegeist_filter_group"
+                 class="SitegeistGoldenGateShopwareDataBridge\Components\Api\Resource\SitegeistFilterGroup">
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.dto.handler.filter_group.filter_group_reference_handler" />
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.api.handler.filter_group.filter_group_handler" />
+        </service>
+        <service id="sitegeist_golden_gate_shopware_data_bridge.components.api.resource.sitegeist_product"
+                 class="SitegeistGoldenGateShopwareDataBridge\Components\Api\Resource\SitegeistProduct">
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.dto.handler.product.product_reference_handler" />
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.dto.handler.product.product_handler" />
+        </service>
+        <service id="sitegeist_golden_gate_shopware_data_bridge.components.api.resource.sitegeist_category"
+                 class="SitegeistGoldenGateShopwareDataBridge\Components\Api\Resource\SitegeistCategory">
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.dto.handler.category.category_reference_handler" />
+        </service>
+
+
+        <!-- Price Calculator -->
+        <service id="sitegeist_golden_gate_shopware_data_bridge.components.price_calculator" class="SitegeistGoldenGateShopwareDataBridge\Components\PriceCalculator">
+            <argument type="service" id="shopware_storefront.price_calculator" />
+            <argument type="service" id="sitegeist_golden_gate_shopware_data_bridge.components.shop_handler" />
+        </service>
+
+
+        <!-- Shop Handler -->
+        <service id="sitegeist_golden_gate_shopware_data_bridge.components.shop_handler" class="SitegeistGoldenGateShopwareDataBridge\Components\ShopHandler">
+            <argument type="service" id="shopware_storefront.context_service" />
+        </service>
+
+    </services>
+</container>
